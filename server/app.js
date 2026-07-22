@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 
 import authRoutes from "./routes/auth.routes.js";
+import vehicleRoutes from "./routes/vehicle.routes.js";
 import { errorHandler, notFound } from "./middleware/error.middleware.js";
 
 const app = express();
@@ -16,6 +17,7 @@ app.get("/", (req, res) => {
 
 // Feature routes
 app.use("/api/auth", authRoutes);
+app.use("/api/vehicles", vehicleRoutes);
 
 // 404 + centralized error handling (must be registered last)
 app.use(notFound);

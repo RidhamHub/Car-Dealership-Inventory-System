@@ -1,0 +1,71 @@
+import mongoose from "mongoose";
+import Vehicle from "../models/vehicle.model.js";
+
+// POST /api/vehicles  (admin only)
+export const addVehicle = async (req, res) => {
+  try {
+    const { make, model, category, price, quantity } = req.body;
+
+    if (!make || !model || !category || price === undefined) {
+      return res
+        .status(400)
+        .json({ message: "make, model, category and price are required" });
+    }
+    if (price < 0 || (quantity ?? 0) < 0) {
+      return res.status(400).json({ message: "price and quantity cannot be negative" });
+    }
+
+    const vehicle = await Vehicle.create({ make, model, category, price, quantity });
+    res.status(201).json(vehicle);
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+// GET /api/vehicles  (any logged-in user)
+export const getVehicles = async (req, res) => {
+  try {
+    const vehicles = await Vehicle.find().sort({ createdAt: -1 });
+    res.json(vehicles);
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+// PUT /api/vehicles/:id  (admin only)
+export const updateVehicle = async (req, res) => {
+  try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(404).json({ message: "Vehicle not found" });
+    }
+
+    const vehicle = await Vehicle.findByIdAndUpdate(req.params.id, req.body, {
+      new: true, // return the updated document
+      runValidators: true, // still enforce the schema rules
+    });
+
+    if (!vehicle) {
+      return res.status(404).json({ message: "Vehicle not found" });
+    }
+    res.json(vehicle);
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+// DELETE /api/vehicles/:id  (admin only)
+export const deleteVehicle = async (req, res) => {
+  try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(404).json({ message: "Vehicle not found" });
+    }
+
+    const vehicle = await Vehicle.findByIdAndDelete(req.params.id);
+    if (!vehicle) {
+      return res.status(404).json({ message: "Vehicle not found" });
+    }
+    res.json({ message: "Vehicle deleted" });
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
