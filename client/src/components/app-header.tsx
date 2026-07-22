@@ -17,9 +17,9 @@ export function AppHeader() {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
         <Link to="/dashboard" className="flex items-center gap-2">
           <div className="grid h-8 w-8 place-items-center rounded-md bg-primary text-primary-foreground">
-            <span className="font-display text-lg font-bold">K</span>
+            <span className="font-display text-lg font-bold">RK</span>
           </div>
-          <span className="font-display text-xl font-bold tracking-tight">KARZONE</span>
+          <span className="font-display text-xl font-bold tracking-tight">RK AUTOHUB</span>
         </Link>
 
         <nav className="hidden gap-1 md:flex">

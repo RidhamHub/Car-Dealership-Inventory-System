@@ -80,11 +80,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Karzone — Exotic Car Rentals & Sales" },
-      { name: "description", content: "Rent the luxury. Own the thrill. Browse and reserve exotic sports cars, SUVs and luxury sedans at Karzone." },
-      { name: "author", content: "Karzone" },
-      { property: "og:title", content: "Karzone — Exotic Car Rentals & Sales" },
-      { property: "og:description", content: "Rent the luxury. Own the thrill." },
+      { title: "RK AutoHub — Exotic Car Sales" },
+      { name: "description", content: "Own the luxury. Feel the thrill. Browse and buy exotic sports cars, SUVs and luxury sedans at RK AutoHub." },
+      { name: "author", content: "RK AutoHub" },
+      { property: "og:title", content: "RK AutoHub — Exotic Car Sales" },
+      { property: "og:description", content: "Own the luxury. Feel the thrill." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -105,7 +105,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="dark scroll-smooth">
       <head>
         <HeadContent />
         <link rel="preconnect" href="https://fonts.googleapis.com" />

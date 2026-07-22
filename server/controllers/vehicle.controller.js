@@ -4,7 +4,7 @@ import Vehicle from "../models/vehicle.model.js";
 // POST /api/vehicles  (admin only)
 export const addVehicle = async (req, res) => {
   try {
-    const { make, model, category, price, quantity, images } = req.body;
+    const { make, model, category, year, price, quantity, images } = req.body;
 
     if (!make || !model || !category || price === undefined) {
       return res
@@ -15,7 +15,7 @@ export const addVehicle = async (req, res) => {
       return res.status(400).json({ message: "price and quantity cannot be negative" });
     }
 
-    const vehicle = await Vehicle.create({ make, model, category, price, quantity, images });
+    const vehicle = await Vehicle.create({ make, model, category, year, price, quantity, images });
     res.status(201).json(vehicle);
   } catch (error) {
     res.status(500).json({ message: "Something went wrong" });

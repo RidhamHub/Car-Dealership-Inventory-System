@@ -8,10 +8,10 @@ import { ArrowRight, Loader2 } from "lucide-react";
 export const Route = createFileRoute("/login")({
   head: () => ({
     meta: [
-      { title: "Log in — Karzone" },
-      { name: "description", content: "Sign in to your Karzone account." },
-      { property: "og:title", content: "Log in — Karzone" },
-      { property: "og:description", content: "Sign in to your Karzone account." },
+      { title: "Log in — RK AutoHub" },
+      { name: "description", content: "Sign in to your RK AutoHub account." },
+      { property: "og:title", content: "Log in — RK AutoHub" },
+      { property: "og:description", content: "Sign in to your RK AutoHub account." },
     ],
   }),
   component: LoginPage,
@@ -68,14 +68,14 @@ export function AuthShell({ title, subtitle, children }: { title: string; subtit
         <div className="relative flex h-full flex-col justify-between p-12">
           <Link to="/" className="flex items-center gap-2">
             <div className="grid h-9 w-9 place-items-center rounded-lg bg-primary text-primary-foreground">
-              <span className="font-display text-lg font-bold">K</span>
+              <span className="font-display text-lg font-bold">RK</span>
             </div>
-            <span className="font-display text-xl font-bold tracking-tight">KARZONE</span>
+            <span className="font-display text-xl font-bold tracking-tight">RK AUTOHUB</span>
           </Link>
           <div>
             <div className="text-xs uppercase tracking-[0.3em] text-muted-foreground">001 / Exotic Collection</div>
             <h2 className="mt-6 font-display text-5xl font-bold leading-[1.05] tracking-tight text-balance">
-              Rent the luxury. <span className="italic text-muted-foreground">Own the thrill.</span>
+              Own the luxury. <span className="italic text-muted-foreground">Feel the thrill.</span>
             </h2>
             <p className="mt-4 max-w-md text-muted-foreground">
               Every tap of the accelerator is a gut punch. A talisman against boredom.
@@ -87,9 +87,9 @@ export function AuthShell({ title, subtitle, children }: { title: string; subtit
         <div className="w-full max-w-sm">
           <Link to="/" className="mb-8 flex items-center gap-2 lg:hidden">
             <div className="grid h-8 w-8 place-items-center rounded-md bg-primary text-primary-foreground">
-              <span className="font-display font-bold">K</span>
+              <span className="font-display font-bold">RK</span>
             </div>
-            <span className="font-display font-bold tracking-tight">KARZONE</span>
+            <span className="font-display font-bold tracking-tight">RK AUTOHUB</span>
           </Link>
           <h1 className="font-display text-3xl font-bold tracking-tight">{title}</h1>
           <p className="mt-2 text-sm text-muted-foreground">{subtitle}</p>

@@ -39,7 +39,7 @@
 
 :root {
   --radius: 1rem;
-  /* Dark by default - Karzone inspired */
+  /* Dark by default - RK AutoHub inspired */
   --background: oklch(0.16 0.005 240);
   --foreground: oklch(0.98 0 0);
   --surface: oklch(0.20 0.006 240);

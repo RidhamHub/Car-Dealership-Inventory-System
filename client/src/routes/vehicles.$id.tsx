@@ -11,10 +11,10 @@ import { ArrowLeft, Calendar, Car as CarIcon, Loader2, Mail, Package, ShoppingBa
 export const Route = createFileRoute("/vehicles/$id")({
   head: () => ({
     meta: [
-      { title: "Vehicle — Karzone" },
-      { name: "description", content: "Vehicle details on Karzone." },
-      { property: "og:title", content: "Vehicle — Karzone" },
-      { property: "og:description", content: "Vehicle details on Karzone." },
+      { title: "Vehicle — RK AutoHub" },
+      { name: "description", content: "Vehicle details on RK AutoHub." },
+      { property: "og:title", content: "Vehicle — RK AutoHub" },
+      { property: "og:description", content: "Vehicle details on RK AutoHub." },
     ],
   }),
   component: () => (
@@ -127,7 +127,7 @@ function VehiclePage() {
             <div className="mt-6 grid grid-cols-3 gap-3">
               <Stat label="Stock" value={String(vehicle.quantity)} />
               <Stat label="Category" value={vehicle.category} />
-              <Stat label="Year" value={new Date(vehicle.createdAt).getFullYear().toString()} />
+              <Stat label="Year" value={vehicle.year ? vehicle.year.toString() : "—"} />
             </div>
 
             <div className="mt-6 rounded-2xl border border-border bg-surface p-5 text-sm text-muted-foreground">

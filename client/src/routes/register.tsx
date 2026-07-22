@@ -9,10 +9,10 @@ import { AuthShell, Field } from "./login";
 export const Route = createFileRoute("/register")({
   head: () => ({
     meta: [
-      { title: "Create your Karzone account" },
-      { name: "description", content: "Join Karzone to rent and buy exotic cars." },
-      { property: "og:title", content: "Create your Karzone account" },
-      { property: "og:description", content: "Join Karzone to rent and buy exotic cars." },
+      { title: "Create your RK AutoHub account" },
+      { name: "description", content: "Join RK AutoHub to browse and buy exotic cars." },
+      { property: "og:title", content: "Create your RK AutoHub account" },
+      { property: "og:description", content: "Join RK AutoHub to browse and buy exotic cars." },
     ],
   }),
   component: RegisterPage,

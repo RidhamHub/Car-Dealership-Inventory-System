@@ -27,6 +27,7 @@ export type Vehicle = {
   make: string;
   model: string;
   category: string;
+  year?: number;
   price: number;
   quantity: number;
   images: string[];

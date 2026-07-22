@@ -10,10 +10,10 @@ import { Loader2, LogOut, Mail, Shield, User as UserIcon, Calendar } from "lucid
 export const Route = createFileRoute("/profile")({
   head: () => ({
     meta: [
-      { title: "Profile — Karzone" },
-      { name: "description", content: "Your Karzone account details." },
-      { property: "og:title", content: "Profile — Karzone" },
-      { property: "og:description", content: "Your Karzone account details." },
+      { title: "Profile — RK AutoHub" },
+      { name: "description", content: "Your RK AutoHub account details." },
+      { property: "og:title", content: "Profile — RK AutoHub" },
+      { property: "og:description", content: "Your RK AutoHub account details." },
     ],
   }),
   component: () => (

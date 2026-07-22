@@ -1,16 +1,16 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "@/lib/auth";
-import { ArrowRight, Car, ShieldCheck, Zap, Star, Gauge, Sparkles, Phone, Mail, MapPin, Instagram, Twitter, Facebook } from "lucide-react";
+import { ArrowRight, ArrowUp, Car, ShieldCheck, Zap, Star, Gauge, Sparkles, Phone, Mail, MapPin, Instagram, Twitter, Facebook } from "lucide-react";
 import heroCar from "@/assets/hero-car.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Karzone — Rent the luxury. Own the thrill." },
-      { name: "description", content: "Exotic car rentals and sales. Curated luxury and performance vehicles, delivered." },
-      { property: "og:title", content: "Karzone" },
-      { property: "og:description", content: "Rent the luxury. Own the thrill." },
+      { title: "RK AutoHub — Own the luxury. Feel the thrill." },
+      { name: "description", content: "Exotic car sales. Curated luxury and performance vehicles, delivered." },
+      { property: "og:title", content: "RK AutoHub" },
+      { property: "og:description", content: "Own the luxury. Feel the thrill." },
     ],
   }),
   component: Landing,
@@ -30,13 +30,13 @@ function Landing() {
       <header className="mx-auto flex max-w-7xl items-center justify-between px-6 py-6">
         <div className="flex items-center gap-2">
           <div className="grid h-9 w-9 place-items-center rounded-lg bg-primary text-primary-foreground">
-            <span className="font-display text-lg font-bold">K</span>
+            <span className="font-display text-lg font-bold">RK</span>
           </div>
-          <span className="font-display text-xl font-bold tracking-tight">KARZONE</span>
+          <span className="font-display text-xl font-bold tracking-tight">RK AUTOHUB</span>
         </div>
         <nav className="hidden md:flex items-center gap-8 text-sm text-muted-foreground">
-          <a href="#collection" className="hover:text-foreground transition-colors">Collection</a>
           <a href="#stats" className="hover:text-foreground transition-colors">Why us</a>
+          <a href="#collection" className="hover:text-foreground transition-colors">Collection</a>
           <a href="#contact" className="hover:text-foreground transition-colors">Contact</a>
         </nav>
         <div className="flex items-center gap-2">
@@ -61,15 +61,15 @@ function Landing() {
           <div className="relative grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-center">
             <div>
               <div className="flex items-center gap-2 text-xs uppercase tracking-[0.3em] text-muted-foreground">
-                <span className="h-px w-8 bg-primary" /> Exotic car collection by Karzone
+                <span className="h-px w-8 bg-primary" /> Exotic car collection by RK AutoHub
               </div>
               <h1 className="mt-6 max-w-4xl font-display text-5xl font-bold leading-[1.02] tracking-tight md:text-7xl lg:text-8xl text-balance">
-                Rent the luxury.
+                Own the luxury.
                 <br />
-                <span className="text-muted-foreground">Own the</span> <span className="italic text-primary">thrill.</span>
+                <span className="text-muted-foreground">Feel the</span> <span className="italic text-primary">thrill.</span>
               </h1>
               <p className="mt-6 max-w-xl text-base text-muted-foreground md:text-lg">
-                From exotic sports cars to luxury sedans and SUVs, Karzone's collection offers an
+                From exotic sports cars to luxury sedans and SUVs, RK AutoHub's collection offers an
                 exceptional selection and trusted, personalised service.
               </p>
               <div className="mt-10 flex flex-wrap gap-3">
@@ -77,7 +77,7 @@ function Landing() {
                   to="/register"
                   className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground hover:brightness-110 shadow-[0_10px_40px_-10px_hsl(var(--primary)/0.6)]"
                 >
-                  Rent a car <ArrowRight className="h-4 w-4" />
+                  Browse cars <ArrowRight className="h-4 w-4" />
                 </Link>
                 <Link
                   to="/login"
@@ -134,20 +134,26 @@ function Landing() {
         </div>
 
         {/* features */}
-        <div id="stats" className="mt-8 grid gap-4 md:grid-cols-3">
-          {[
-            { icon: Car, title: "Curated fleet", body: "Sedans, SUVs, coupes, trucks & hatchbacks — hand-picked." },
-            { icon: Zap, title: "Instant booking", body: "Reserve or purchase in seconds. Real-time inventory." },
-            { icon: ShieldCheck, title: "Verified & insured", body: "Every vehicle inspected. Every transaction secure." },
-          ].map((f) => (
-            <div key={f.title} className="group rounded-2xl border border-border bg-surface p-6 transition-all hover:border-primary/40 hover:-translate-y-1">
-              <div className="grid h-10 w-10 place-items-center rounded-lg bg-primary/15 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                <f.icon className="h-5 w-5" />
+        <div id="stats" className="mt-24 scroll-mt-24">
+          <div className="text-xs uppercase tracking-[0.3em] text-muted-foreground">Why RK AutoHub</div>
+          <h2 className="mt-2 max-w-2xl font-display text-4xl font-bold tracking-tight md:text-5xl">
+            Built for the drive, trusted for the details.
+          </h2>
+          <div className="mt-10 grid gap-4 md:grid-cols-3">
+            {[
+              { icon: Car, title: "Curated fleet", body: "Sedans, SUVs, coupes, trucks & hatchbacks — hand-picked." },
+              { icon: Zap, title: "Instant purchase", body: "Buy in seconds with real-time inventory." },
+              { icon: ShieldCheck, title: "Verified & insured", body: "Every vehicle inspected. Every transaction secure." },
+            ].map((f) => (
+              <div key={f.title} className="group rounded-2xl border border-border bg-surface p-6 transition-all hover:border-primary/40 hover:-translate-y-1">
+                <div className="grid h-10 w-10 place-items-center rounded-lg bg-primary/15 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                  <f.icon className="h-5 w-5" />
+                </div>
+                <h3 className="mt-4 font-display text-lg font-semibold">{f.title}</h3>
+                <p className="mt-2 text-sm text-muted-foreground">{f.body}</p>
               </div>
-              <h3 className="mt-4 font-display text-lg font-semibold">{f.title}</h3>
-              <p className="mt-2 text-sm text-muted-foreground">{f.body}</p>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
@@ -165,24 +171,29 @@ function Landing() {
 
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {[
-            { name: "Sports", icon: Zap, count: "120+ cars" },
-            { name: "Luxury Sedan", icon: Star, count: "80+ cars" },
-            { name: "SUV", icon: Car, count: "95+ cars" },
-            { name: "Coupe", icon: Gauge, count: "60+ cars" },
+            { name: "Sports", icon: Zap, count: "120+ cars", desc: "Track-bred performance and razor-sharp handling for the driver who wants it all." },
+            { name: "Luxury Sedan", icon: Star, count: "80+ cars", desc: "First-class comfort and effortless power, refined for the long road ahead." },
+            { name: "SUV", icon: Car, count: "95+ cars", desc: "Commanding presence and go-anywhere capability, without the compromise." },
+            { name: "Coupe", icon: Gauge, count: "60+ cars", desc: "Sculpted two-doors built purely for the thrill of the drive." },
           ].map((c) => (
-            <div key={c.name} className="group relative overflow-hidden rounded-2xl border border-border bg-surface p-6 aspect-[4/5] flex flex-col justify-between hover:border-primary/40 transition-all cursor-pointer">
+            <Link
+              to="/login"
+              key={c.name}
+              className="group relative overflow-hidden rounded-2xl border border-border bg-surface p-6 aspect-[4/5] flex flex-col justify-between hover:border-primary/40 transition-all cursor-pointer"
+            >
               <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-primary/5 blur-2xl group-hover:bg-primary/20 transition-colors" />
               <div className="relative grid h-12 w-12 place-items-center rounded-xl bg-primary/15 text-primary">
                 <c.icon className="h-6 w-6" />
               </div>
               <div className="relative">
                 <h3 className="font-display text-2xl font-bold">{c.name}</h3>
-                <div className="mt-1 text-sm text-muted-foreground">{c.count}</div>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{c.desc}</p>
+                <div className="mt-3 text-xs uppercase tracking-wider text-muted-foreground/70">{c.count}</div>
                 <div className="mt-4 inline-flex items-center gap-1 text-xs text-primary opacity-0 group-hover:opacity-100 transition-opacity">
                   Explore <ArrowRight className="h-3 w-3" />
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>
@@ -197,7 +208,7 @@ function Landing() {
               Ready to feel the road?
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-muted-foreground">
-              Join thousands of drivers who trust Karzone for their next unforgettable ride.
+              Join thousands of drivers who trust RK AutoHub for their next unforgettable ride.
             </p>
             <div className="mt-8 flex justify-center gap-3 flex-wrap">
               <Link
@@ -224,12 +235,12 @@ function Landing() {
             <div className="md:col-span-2">
               <div className="flex items-center gap-2">
                 <div className="grid h-9 w-9 place-items-center rounded-lg bg-primary text-primary-foreground">
-                  <span className="font-display text-lg font-bold">K</span>
+                  <span className="font-display text-lg font-bold">RK</span>
                 </div>
-                <span className="font-display text-xl font-bold tracking-tight">KARZONE</span>
+                <span className="font-display text-xl font-bold tracking-tight">RK AUTOHUB</span>
               </div>
               <p className="mt-4 max-w-md text-sm text-muted-foreground">
-                Rent the luxury. Own the thrill. Curated exotic and premium vehicles, delivered with white-glove service.
+                Own the luxury. Feel the thrill. Curated exotic and premium vehicles, delivered with white-glove service.
               </p>
               <div className="mt-6 flex gap-3">
                 {[Instagram, Twitter, Facebook].map((Icon, i) => (
@@ -243,7 +254,7 @@ function Landing() {
               <div className="text-xs uppercase tracking-wider text-foreground font-semibold">Explore</div>
               <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
                 <li><a href="#collection" className="hover:text-foreground">Collection</a></li>
-                <li><a href="#stats" className="hover:text-foreground">Why Karzone</a></li>
+                <li><a href="#stats" className="hover:text-foreground">Why RK AutoHub</a></li>
                 <li><Link to="/register" className="hover:text-foreground">Get started</Link></li>
                 <li><Link to="/login" className="hover:text-foreground">Log in</Link></li>
               </ul>
@@ -252,14 +263,14 @@ function Landing() {
               <div className="text-xs uppercase tracking-wider text-foreground font-semibold">Contact</div>
               <ul className="mt-4 space-y-3 text-sm text-muted-foreground">
                 <li className="flex items-center gap-2"><Phone className="h-4 w-4 text-primary" /> +91 98765 43210</li>
-                <li className="flex items-center gap-2"><Mail className="h-4 w-4 text-primary" /> hello@karzone.in</li>
+                <li className="flex items-center gap-2"><Mail className="h-4 w-4 text-primary" /> hello@rkautohub.in</li>
                 <li className="flex items-center gap-2"><MapPin className="h-4 w-4 text-primary" /> Mumbai, India</li>
               </ul>
             </div>
           </div>
 
           <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-border pt-6 text-sm text-muted-foreground">
-            <div>© {new Date().getFullYear()} Karzone, Inc. All rights reserved.</div>
+            <div>© {new Date().getFullYear()} RK AutoHub, Inc. All rights reserved.</div>
             <div className="flex gap-6">
               <span>Privacy</span>
               <span>Terms</span>
@@ -268,6 +279,32 @@ function Landing() {
           </div>
         </div>
       </footer>
+
+      <ScrollToTop />
     </div>
+  );
+}
+
+function ScrollToTop() {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setVisible(window.scrollY > 400);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return (
+    <button
+      type="button"
+      aria-label="Scroll to top"
+      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      className={`fixed bottom-6 right-6 z-50 grid h-11 w-11 place-items-center rounded-full border border-border bg-surface/80 text-foreground shadow-lg backdrop-blur transition-all hover:border-primary/50 hover:text-primary ${
+        visible ? "opacity-100 translate-y-0" : "pointer-events-none opacity-0 translate-y-3"
+      }`}
+    >
+      <ArrowUp className="h-5 w-5" />
+    </button>
   );
 }

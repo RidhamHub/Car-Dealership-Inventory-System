@@ -14,6 +14,7 @@ export function VehicleForm({ initial, onDone, onCancel }: Props) {
   const [make, setMake] = useState(initial?.make ?? "");
   const [model, setModel] = useState(initial?.model ?? "");
   const [category, setCategory] = useState(initial?.category ?? "Sedan");
+  const [year, setYear] = useState<number | "">(initial?.year ?? "");
   const [price, setPrice] = useState<number | "">(initial?.price ?? "");
   const [quantity, setQuantity] = useState<number | "">(initial?.quantity ?? "");
   const [images, setImages] = useState<string[]>(initial?.images ?? []);
@@ -25,6 +26,7 @@ export function VehicleForm({ initial, onDone, onCancel }: Props) {
       setMake(initial.make);
       setModel(initial.model);
       setCategory(initial.category);
+      setYear(initial.year ?? "");
       setPrice(initial.price);
       setQuantity(initial.quantity);
       setImages(initial.images);
@@ -50,9 +52,13 @@ export function VehicleForm({ initial, onDone, onCancel }: Props) {
       toast.error("Price and quantity required");
       return;
     }
+    if (year === "") {
+      toast.error("Year is required");
+      return;
+    }
     setLoading(true);
     try {
-      const payload = { make, model, category, price: Number(price), quantity: Number(quantity), images };
+      const payload = { make, model, category, year: Number(year), price: Number(price), quantity: Number(quantity), images };
       const { data } = initial
         ? await api.put<Vehicle>(`/vehicles/${initial._id}`, payload)
         : await api.post<Vehicle>("/vehicles", payload);
@@ -80,6 +86,18 @@ export function VehicleForm({ initial, onDone, onCancel }: Props) {
               <option key={c} value={c}>{c}</option>
             ))}
           </select>
+        </FormField>
+        <FormField label="Year">
+          <input
+            required
+            type="number"
+            min={1900}
+            max={new Date().getFullYear() + 1}
+            placeholder="e.g. 2022"
+            value={year}
+            onChange={(e) => setYear(e.target.value === "" ? "" : Number(e.target.value))}
+            className={inputCls}
+          />
         </FormField>
         <FormField label="Price (INR)">
           <input required type="number" min={0} value={price} onChange={(e) => setPrice(e.target.value === "" ? "" : Number(e.target.value))} className={inputCls} />

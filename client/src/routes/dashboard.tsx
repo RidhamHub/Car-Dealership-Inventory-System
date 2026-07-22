@@ -23,10 +23,10 @@ import {
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
     meta: [
-      { title: "Vehicles — Karzone" },
-      { name: "description", content: "Browse and reserve exotic cars in the Karzone collection." },
-      { property: "og:title", content: "Vehicles — Karzone" },
-      { property: "og:description", content: "Browse the Karzone collection." },
+      { title: "Vehicles — RK AutoHub" },
+      { name: "description", content: "Browse and buy exotic cars in the RK AutoHub collection." },
+      { property: "og:title", content: "Vehicles — RK AutoHub" },
+      { property: "og:description", content: "Browse the RK AutoHub collection." },
     ],
   }),
   component: () => (
@@ -116,7 +116,7 @@ function Dashboard() {
           <div>
             <div className="text-xs uppercase tracking-[0.3em] text-muted-foreground">The Collection</div>
             <h1 className="mt-2 font-display text-4xl font-bold tracking-tight md:text-5xl">
-              Rent the luxury. <span className="italic text-muted-foreground">Own the thrill.</span>
+              Own the luxury. <span className="italic text-muted-foreground">Feel the thrill.</span>
             </h1>
           </div>
           {isAdmin && (
