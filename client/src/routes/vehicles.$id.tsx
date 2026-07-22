@@ -6,7 +6,10 @@ import { useAuth } from "@/lib/auth";
 import { formatINR, type Vehicle } from "@/lib/utils-app";
 import { RequireAuth } from "@/components/require-auth";
 import { AppHeader } from "@/components/app-header";
-import { ArrowLeft, Calendar, Car as CarIcon, Loader2, Mail, Package, ShoppingBag } from "lucide-react";
+import { VehicleForm } from "@/components/vehicle-form";
+import { ConfirmDialog } from "@/components/confirm-dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { ArrowLeft, Calendar, Car as CarIcon, Loader2, Mail, Package, Pencil, ShoppingBag, Trash2 } from "lucide-react";
 
 export const Route = createFileRoute("/vehicles/$id")({
   head: () => ({
@@ -32,6 +35,40 @@ function VehiclePage() {
   const [loading, setLoading] = useState(true);
   const [activeImage, setActiveImage] = useState(0);
   const [purchasing, setPurchasing] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
+  const [showRestock, setShowRestock] = useState(false);
+  const [restockQty, setRestockQty] = useState(1);
+  const [restocking, setRestocking] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
+
+  const isAdmin = user?.role === "admin";
+
+  const handleDelete = async () => {
+    if (!vehicle) return;
+    try {
+      await api.delete(`/vehicles/${vehicle._id}`);
+      toast.success("Vehicle deleted");
+      navigate({ to: "/dashboard" });
+    } catch (err) {
+      toast.error(getApiError(err));
+    }
+  };
+
+  const handleRestock = async () => {
+    if (!vehicle) return;
+    setRestocking(true);
+    try {
+      const { data } = await api.post<Vehicle>(`/vehicles/${vehicle._id}/restock`, { quantity: restockQty });
+      setVehicle(data);
+      toast.success(`Added ${restockQty} units`);
+      setShowRestock(false);
+      setRestockQty(1);
+    } catch (err) {
+      toast.error(getApiError(err));
+    } finally {
+      setRestocking(false);
+    }
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -155,14 +192,109 @@ function VehiclePage() {
               </a>
             </div>
 
-            {user?.role === "admin" && (
-              <div className="mt-6 flex items-center gap-2 rounded-xl border border-primary/30 bg-primary/10 px-4 py-3 text-xs text-primary">
-                <Package className="h-4 w-4" /> Admin: manage inventory from the dashboard.
+            {isAdmin && (
+              <div className="mt-6 rounded-2xl border border-primary/30 bg-primary/5 p-4">
+                <div className="flex items-center gap-2 text-xs font-medium uppercase tracking-wider text-primary">
+                  <Package className="h-4 w-4" /> Admin controls
+                </div>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <button
+                    onClick={() => setShowEdit(true)}
+                    className="inline-flex items-center gap-1.5 rounded-full border border-border bg-surface px-4 py-2 text-sm hover:bg-surface-2"
+                  >
+                    <Pencil className="h-4 w-4" /> Edit
+                  </button>
+                  <button
+                    onClick={() => setShowRestock(true)}
+                    className="inline-flex items-center gap-1.5 rounded-full border border-border bg-surface px-4 py-2 text-sm hover:bg-surface-2"
+                  >
+                    <Package className="h-4 w-4" /> Restock
+                  </button>
+                  <button
+                    onClick={() => setShowDelete(true)}
+                    className="inline-flex items-center gap-1.5 rounded-full border border-border bg-surface px-4 py-2 text-sm text-muted-foreground hover:border-destructive/50 hover:text-destructive"
+                  >
+                    <Trash2 className="h-4 w-4" /> Delete
+                  </button>
+                </div>
               </div>
             )}
           </div>
         </div>
       </main>
+
+      {/* Edit dialog */}
+      <Dialog open={showEdit} onOpenChange={setShowEdit}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Edit vehicle</DialogTitle>
+          </DialogHeader>
+          <VehicleForm
+            initial={vehicle}
+            onDone={(v) => {
+              setVehicle(v);
+              setShowEdit(false);
+            }}
+            onCancel={() => setShowEdit(false)}
+          />
+        </DialogContent>
+      </Dialog>
+
+      {/* Restock dialog */}
+      <Dialog
+        open={showRestock}
+        onOpenChange={(o) => {
+          if (!o) {
+            setShowRestock(false);
+            setRestockQty(1);
+          }
+        }}
+      >
+        <DialogContent className="max-w-sm">
+          <DialogHeader>
+            <DialogTitle>Restock {vehicle.make} {vehicle.model}</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <label className="block">
+              <span className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Units to add</span>
+              <input
+                type="number"
+                min={1}
+                value={restockQty}
+                onChange={(e) => setRestockQty(Math.max(1, Number(e.target.value)))}
+                className="w-full rounded-lg border border-border bg-input px-3 py-2 text-sm outline-none focus:border-primary"
+              />
+            </label>
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={() => setShowRestock(false)}
+                className="rounded-full border border-border px-4 py-2 text-sm hover:bg-surface-2"
+              >
+                Cancel
+              </button>
+              <button
+                disabled={restocking}
+                onClick={handleRestock}
+                className="inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:brightness-110 disabled:opacity-60"
+              >
+                {restocking && <Loader2 className="h-4 w-4 animate-spin" />}
+                Restock
+              </button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete confirmation */}
+      <ConfirmDialog
+        open={showDelete}
+        onOpenChange={setShowDelete}
+        destructive
+        title="Delete this vehicle?"
+        description={`${vehicle.make} ${vehicle.model} will be permanently removed from the inventory. This can't be undone.`}
+        confirmLabel="Delete"
+        onConfirm={handleDelete}
+      />
     </div>
   );
 }

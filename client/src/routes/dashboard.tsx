@@ -7,6 +7,7 @@ import { CATEGORIES, formatINR, type Vehicle } from "@/lib/utils-app";
 import { RequireAuth } from "@/components/require-auth";
 import { AppHeader } from "@/components/app-header";
 import { VehicleForm } from "@/components/vehicle-form";
+import { ConfirmDialog } from "@/components/confirm-dialog";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import {
   ArrowRight,
@@ -18,6 +19,7 @@ import {
   Search,
   ShoppingBag,
   Trash2,
+  X,
 } from "lucide-react";
 
 export const Route = createFileRoute("/dashboard")({
@@ -52,6 +54,7 @@ function Dashboard() {
   const [editing, setEditing] = useState<Vehicle | null>(null);
   const [showAdd, setShowAdd] = useState(false);
   const [restocking, setRestocking] = useState<Vehicle | null>(null);
+  const [deleting, setDeleting] = useState<Vehicle | null>(null);
 
   const params = useMemo(() => {
     const p: Record<string, string> = {};
@@ -63,6 +66,17 @@ function Dashboard() {
     if (sort) p.sort = sort;
     return p;
   }, [make, model, category, minPrice, maxPrice, sort]);
+
+  const hasActiveFilters = Boolean(make || model || category || minPrice || maxPrice || sort);
+
+  const clearFilters = () => {
+    setMake("");
+    setModel("");
+    setCategory("");
+    setMinPrice("");
+    setMaxPrice("");
+    setSort("");
+  };
 
   useEffect(() => {
     const hasFilters = Object.keys(params).length > 0;
@@ -88,14 +102,17 @@ function Dashboard() {
     }
   };
 
-  const handleDelete = async (v: Vehicle) => {
-    if (!confirm(`Delete ${v.make} ${v.model}?`)) return;
+  const confirmDelete = async () => {
+    if (!deleting) return;
+    const target = deleting;
     try {
-      await api.delete(`/vehicles/${v._id}`);
-      setVehicles((cur) => cur.filter((x) => x._id !== v._id));
+      await api.delete(`/vehicles/${target._id}`);
+      setVehicles((cur) => cur.filter((x) => x._id !== target._id));
       toast.success("Vehicle deleted");
     } catch (err) {
       toast.error(getApiError(err));
+    } finally {
+      setDeleting(null);
     }
   };
 
@@ -168,6 +185,18 @@ function Dashboard() {
               <option value="price_desc">Price: high to low</option>
             </select>
           </div>
+
+          {hasActiveFilters && (
+            <div className="mt-3 flex justify-end">
+              <button
+                type="button"
+                onClick={clearFilters}
+                className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:border-primary/50 hover:text-foreground"
+              >
+                <X className="h-3.5 w-3.5" /> Clear filters
+              </button>
+            </div>
+          )}
         </div>
 
         {/* list */}
@@ -187,7 +216,7 @@ function Dashboard() {
                   isAdmin={isAdmin}
                   onPurchase={() => handlePurchase(v)}
                   onEdit={() => setEditing(v)}
-                  onDelete={() => handleDelete(v)}
+                  onDelete={() => setDeleting(v)}
                   onRestock={() => setRestocking(v)}
                 />
               ))}
@@ -237,6 +266,21 @@ function Dashboard() {
           upsert(v);
           setRestocking(null);
         }}
+      />
+
+      {/* Delete confirmation */}
+      <ConfirmDialog
+        open={!!deleting}
+        onOpenChange={(o) => !o && setDeleting(null)}
+        destructive
+        title="Delete this vehicle?"
+        description={
+          deleting
+            ? `${deleting.make} ${deleting.model} will be permanently removed from the inventory. This can't be undone.`
+            : undefined
+        }
+        confirmLabel="Delete"
+        onConfirm={confirmDelete}
       />
     </div>
   );
