@@ -30,11 +30,11 @@ export default function Register() {
   return (
     <div className="mx-auto flex min-h-[80vh] max-w-md items-center px-4">
       <div className="card w-full p-8">
-        <h1 className="text-2xl font-bold text-white">Create your account</h1>
-        <p className="mt-1 text-sm text-slate-400">Join AutoHub in a few seconds.</p>
+        <h1 className="text-2xl font-bold text-slate-900">Create your account</h1>
+        <p className="mt-1 text-sm text-slate-500">Join AutoHub in a few seconds.</p>
 
         {error && (
-          <div className="mt-4 rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-2.5 text-sm text-red-300">
+          <div className="mt-4 rounded-lg border border-red-200 bg-red-50 px-4 py-2.5 text-sm text-red-600">
             {error}
           </div>
         )}
@@ -83,9 +83,9 @@ export default function Register() {
           </button>
         </form>
 
-        <p className="mt-6 text-center text-sm text-slate-400">
+        <p className="mt-6 text-center text-sm text-slate-500">
           Already have an account?{" "}
-          <Link to="/login" className="font-semibold text-brand-400 hover:underline">
+          <Link to="/login" className="font-semibold text-brand-600 hover:underline">
             Sign in
           </Link>
         </p>

@@ -60,7 +60,7 @@ export default function VehicleForm({ initial, onSubmit, onClose, saving }) {
         <label className="label">Photos ({images.length}/{MAX_PHOTOS})</label>
         <div className="flex flex-wrap gap-2">
           {images.map((src, i) => (
-            <div key={i} className="relative h-16 w-24 overflow-hidden rounded-lg border border-white/10">
+            <div key={i} className="relative h-16 w-24 overflow-hidden rounded-lg border border-slate-200">
               <img src={src} alt={`photo ${i + 1}`} className="h-full w-full object-cover" />
               <button
                 type="button"
@@ -72,13 +72,13 @@ export default function VehicleForm({ initial, onSubmit, onClose, saving }) {
             </div>
           ))}
           {images.length < MAX_PHOTOS && (
-            <label className="grid h-16 w-24 cursor-pointer place-items-center rounded-lg border border-dashed border-white/20 text-slate-400 hover:border-brand-400 hover:text-brand-400">
+            <label className="grid h-16 w-24 cursor-pointer place-items-center rounded-lg border border-dashed border-slate-300 text-slate-400 hover:border-brand-500 hover:text-brand-600">
               <ImagePlus size={20} />
               <input type="file" accept="image/*" multiple onChange={onFiles} className="hidden" />
             </label>
           )}
         </div>
-        {imgError && <p className="mt-1 text-xs text-red-400">{imgError}</p>}
+        {imgError && <p className="mt-1 text-xs text-red-500">{imgError}</p>}
       </div>
 
       <div className="grid grid-cols-2 gap-3">

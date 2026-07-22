@@ -7,12 +7,17 @@ export default {
         sans: ["Inter", "system-ui", "sans-serif"],
       },
       colors: {
-        // Single accent used across buttons, links and highlights.
+        // Primary accent (indigo/blue) used on buttons, links and highlights.
         brand: {
-          400: "#38bdf8",
-          500: "#0ea5e9",
-          600: "#0284c7",
+          50: "#eef2ff",
+          100: "#e0e7ff",
+          400: "#818cf8",
+          500: "#6366f1",
+          600: "#4f46e5",
+          700: "#4338ca",
         },
+        // Dark navy used by the top navigation bar.
+        night: "#0b1020",
       },
     },
   },

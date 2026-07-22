@@ -30,11 +30,11 @@ export default function Login() {
   return (
     <div className="mx-auto flex min-h-[80vh] max-w-md items-center px-4">
       <div className="card w-full p-8">
-        <h1 className="text-2xl font-bold text-white">Welcome back</h1>
-        <p className="mt-1 text-sm text-slate-400">Log in to browse and buy vehicles.</p>
+        <h1 className="text-2xl font-bold text-slate-900">Welcome back</h1>
+        <p className="mt-1 text-sm text-slate-500">Log in to browse and buy vehicles.</p>
 
         {error && (
-          <div className="mt-4 rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-2.5 text-sm text-red-300">
+          <div className="mt-4 rounded-lg border border-red-200 bg-red-50 px-4 py-2.5 text-sm text-red-600">
             {error}
           </div>
         )}
@@ -71,16 +71,16 @@ export default function Login() {
           </button>
         </form>
 
-        <p className="mt-6 text-center text-sm text-slate-400">
+        <p className="mt-6 text-center text-sm text-slate-500">
           New here?{" "}
-          <Link to="/register" className="font-semibold text-brand-400 hover:underline">
+          <Link to="/register" className="font-semibold text-brand-600 hover:underline">
             Create an account
           </Link>
         </p>
 
         {/* Demo credentials to make grading/testing easy. */}
-        <div className="mt-6 rounded-lg border border-white/10 bg-white/5 p-3 text-xs text-slate-400">
-          <p className="font-semibold text-slate-300">Demo accounts (after running the seed):</p>
+        <div className="mt-6 rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs text-slate-500">
+          <p className="font-semibold text-slate-700">Demo accounts (after running the seed):</p>
           <p className="mt-1">Admin — admin@dealership.com / admin123</p>
           <p>User — user@dealership.com / user123</p>
         </div>

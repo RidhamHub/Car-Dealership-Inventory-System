@@ -32,7 +32,7 @@ export default function Profile() {
 
   return (
     <main className="mx-auto max-w-2xl px-4 py-12">
-      <h1 className="mb-6 text-3xl font-extrabold text-white">My Profile</h1>
+      <h1 className="mb-6 text-3xl font-extrabold text-slate-900">My Profile</h1>
 
       <div className="card p-8">
         {/* Header: avatar + name */}
@@ -41,12 +41,12 @@ export default function Profile() {
             {initials(profile?.name) || <UserIcon />}
           </div>
           <div>
-            <h2 className="text-xl font-bold text-white">{profile?.name}</h2>
+            <h2 className="text-xl font-bold text-slate-900">{profile?.name}</h2>
             <span
               className={`badge mt-1 ${
                 isAdmin
-                  ? "bg-amber-400/15 text-amber-300 ring-1 ring-amber-400/30"
-                  : "bg-brand-500/15 text-brand-400 ring-1 ring-brand-400/30"
+                  ? "bg-amber-100 text-amber-700"
+                  : "bg-brand-50 text-brand-700"
               }`}
             >
               {isAdmin ? "Administrator" : "Customer"}
@@ -55,7 +55,7 @@ export default function Profile() {
         </div>
 
         {/* Details */}
-        <div className="mt-8 space-y-4 border-t border-white/10 pt-6">
+        <div className="mt-8 space-y-4 border-t border-slate-200 pt-6">
           <Row icon={<Mail size={18} />} label="Email">{profile?.email}</Row>
           <Row icon={<Shield size={18} />} label="Role">{profile?.role}</Row>
           <Row icon={<Calendar size={18} />} label="Member since">{joined}</Row>
@@ -72,10 +72,10 @@ export default function Profile() {
 function Row({ icon, label, children }) {
   return (
     <div className="flex items-center gap-3">
-      <span className="grid h-10 w-10 place-items-center rounded-xl bg-white/5 text-brand-400">{icon}</span>
+      <span className="grid h-10 w-10 place-items-center rounded-xl bg-slate-100 text-brand-600">{icon}</span>
       <div>
-        <p className="text-xs text-slate-500">{label}</p>
-        <p className="font-medium text-slate-200">{children}</p>
+        <p className="text-xs text-slate-400">{label}</p>
+        <p className="font-medium text-slate-800">{children}</p>
       </div>
     </div>
   );

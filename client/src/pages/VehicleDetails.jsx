@@ -79,18 +79,18 @@ export default function VehicleDetails() {
 
   return (
     <main className="mx-auto max-w-6xl px-4 py-8">
-      <Link to="/dashboard" className="mb-6 inline-flex items-center gap-1.5 text-sm text-slate-400 hover:text-white">
+      <Link to="/dashboard" className="mb-6 inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-900">
         <ArrowLeft size={16} /> Back to vehicles
       </Link>
 
       <div className="grid gap-8 md:grid-cols-2">
         {/* Gallery */}
         <div>
-          <div className="relative aspect-video w-full overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-slate-800 to-slate-900">
+          <div className="relative aspect-video w-full overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
             {images.length ? (
               <img src={images[active]} alt={vehicle.model} className="h-full w-full object-cover" />
             ) : (
-              <div className="flex h-full w-full flex-col items-center justify-center text-slate-500">
+              <div className="flex h-full w-full flex-col items-center justify-center text-slate-300">
                 <Car size={56} />
                 <span className="mt-2 text-sm">No photos yet</span>
               </div>
@@ -104,7 +104,7 @@ export default function VehicleDetails() {
                   key={i}
                   onClick={() => setActive(i)}
                   className={`h-16 w-24 overflow-hidden rounded-lg border transition ${
-                    i === active ? "border-brand-400 ring-2 ring-brand-400/40" : "border-white/10 opacity-70 hover:opacity-100"
+                    i === active ? "border-brand-500 ring-2 ring-brand-500/30" : "border-slate-200 opacity-70 hover:opacity-100"
                   }`}
                 >
                   <img src={src} alt={`thumb ${i + 1}`} className="h-full w-full object-cover" />
@@ -116,17 +116,17 @@ export default function VehicleDetails() {
 
         {/* Details */}
         <div>
-          <span className="badge bg-brand-500/15 text-brand-400 ring-1 ring-brand-400/30">
+          <span className="badge bg-brand-50 text-brand-700">
             {vehicle.category}
           </span>
-          <h1 className="mt-3 text-3xl font-extrabold text-white">
+          <h1 className="mt-3 text-3xl font-extrabold text-slate-900">
             {vehicle.make} {vehicle.model}
           </h1>
-          <p className="mt-2 text-4xl font-extrabold text-white">{money(vehicle.price)}</p>
+          <p className="mt-2 text-4xl font-extrabold text-slate-900">{money(vehicle.price)}</p>
 
           <div className="mt-6 space-y-3 text-sm">
             <Detail icon={<Package size={16} />} label="Availability">
-              <span className={outOfStock ? "text-red-300" : "text-emerald-300"}>
+              <span className={outOfStock ? "text-red-500" : "text-emerald-600"}>
                 {outOfStock ? "Out of stock" : `${vehicle.quantity} in stock`}
               </span>
             </Detail>
@@ -152,10 +152,10 @@ export default function VehicleDetails() {
 function Detail({ icon, label, children }) {
   return (
     <div className="flex items-center gap-3">
-      <span className="grid h-9 w-9 place-items-center rounded-lg bg-white/5 text-brand-400">{icon}</span>
+      <span className="grid h-9 w-9 place-items-center rounded-lg bg-slate-100 text-brand-600">{icon}</span>
       <div>
-        <p className="text-xs text-slate-500">{label}</p>
-        <p className="font-medium text-slate-200">{children}</p>
+        <p className="text-xs text-slate-400">{label}</p>
+        <p className="font-medium text-slate-800">{children}</p>
       </div>
     </div>
   );
