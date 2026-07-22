@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   addVehicle,
   getVehicles,
+  getVehicleById,
   searchVehicles,
   updateVehicle,
   deleteVehicle,
@@ -18,6 +19,7 @@ router.use(protect);
 router.get("/", getVehicles);
 // Must come before "/:id" so "search" isn't treated as an id.
 router.get("/search", searchVehicles);
+router.get("/:id", getVehicleById);
 router.post("/", adminOnly, addVehicle);
 router.put("/:id", adminOnly, updateVehicle);
 router.delete("/:id", adminOnly, deleteVehicle);

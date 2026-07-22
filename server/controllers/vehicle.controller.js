@@ -4,7 +4,7 @@ import Vehicle from "../models/vehicle.model.js";
 // POST /api/vehicles  (admin only)
 export const addVehicle = async (req, res) => {
   try {
-    const { make, model, category, price, quantity } = req.body;
+    const { make, model, category, price, quantity, images } = req.body;
 
     if (!make || !model || !category || price === undefined) {
       return res
@@ -15,7 +15,7 @@ export const addVehicle = async (req, res) => {
       return res.status(400).json({ message: "price and quantity cannot be negative" });
     }
 
-    const vehicle = await Vehicle.create({ make, model, category, price, quantity });
+    const vehicle = await Vehicle.create({ make, model, category, price, quantity, images });
     res.status(201).json(vehicle);
   } catch (error) {
     res.status(500).json({ message: "Something went wrong" });
@@ -32,11 +32,27 @@ export const getVehicles = async (req, res) => {
   }
 };
 
+// GET /api/vehicles/:id  (any logged-in user) — full details for one vehicle
+export const getVehicleById = async (req, res) => {
+  try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(404).json({ message: "Vehicle not found" });
+    }
+    const vehicle = await Vehicle.findById(req.params.id);
+    if (!vehicle) {
+      return res.status(404).json({ message: "Vehicle not found" });
+    }
+    res.json(vehicle);
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
 // GET /api/vehicles/search  (any logged-in user)
 // Optional query params: make, model, category, minPrice, maxPrice
 export const searchVehicles = async (req, res) => {
   try {
-    const { make, model, category, minPrice, maxPrice } = req.query;
+    const { make, model, category, minPrice, maxPrice, sort } = req.query;
     const filter = {};
 
     // Text fields use a case-insensitive partial match.
@@ -51,7 +67,12 @@ export const searchVehicles = async (req, res) => {
       if (maxPrice) filter.price.$lte = Number(maxPrice);
     }
 
-    const vehicles = await Vehicle.find(filter).sort({ createdAt: -1 });
+    // Sort: price low->high, price high->low, or newest first (default).
+    let sortBy = { createdAt: -1 };
+    if (sort === "price_asc") sortBy = { price: 1 };
+    else if (sort === "price_desc") sortBy = { price: -1 };
+
+    const vehicles = await Vehicle.find(filter).sort(sortBy);
     res.json(vehicles);
   } catch (error) {
     res.status(500).json({ message: "Something went wrong" });

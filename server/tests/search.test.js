@@ -80,4 +80,18 @@ describe("GET /api/vehicles/search", () => {
     const res = await search("");
     expect(res.body).toHaveLength(4);
   });
+
+  it("sorts by price low to high", async () => {
+    const res = await search("?sort=price_asc");
+    const prices = res.body.map((v) => v.price);
+    expect(prices).toEqual([...prices].sort((a, b) => a - b));
+    expect(prices[0]).toBe(20000);
+  });
+
+  it("sorts by price high to low", async () => {
+    const res = await search("?sort=price_desc");
+    const prices = res.body.map((v) => v.price);
+    expect(prices).toEqual([...prices].sort((a, b) => b - a));
+    expect(prices[0]).toBe(40000);
+  });
 });

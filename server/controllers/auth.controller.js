@@ -40,6 +40,25 @@ export const register = async (req, res) => {
   }
 };
 
+// GET /api/auth/me  (protected) — returns the logged-in user's profile
+export const me = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.json({
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      createdAt: user.createdAt,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
 // POST /api/auth/login
 export const login = async (req, res) => {
   try {

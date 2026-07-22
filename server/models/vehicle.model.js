@@ -8,6 +8,8 @@ const vehicleSchema = new mongoose.Schema(
     category: { type: String, required: true },
     price: { type: Number, required: true, min: 0 },
     quantity: { type: Number, required: true, min: 0, default: 0 },
+    // Uploaded photos, each stored as a base64 data URL. Empty if none provided.
+    images: { type: [String], default: [] },
   },
   { timestamps: true }
 );

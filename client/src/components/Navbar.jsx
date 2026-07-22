@@ -28,9 +28,9 @@ export default function Navbar() {
             <Link to="/dashboard" className="hidden items-center gap-1.5 text-sm text-slate-300 hover:text-white sm:flex">
               <LayoutDashboard size={16} /> Dashboard
             </Link>
-            <span className="hidden text-sm text-slate-400 sm:inline">
+            <Link to="/profile" className="hidden text-sm text-slate-400 hover:text-white sm:inline">
               Hi, <span className="font-semibold text-white">{user.name}</span>
-            </span>
+            </Link>
             {isAdmin && (
               <span className="badge bg-amber-400/15 text-amber-300 ring-1 ring-amber-400/30">
                 Admin

@@ -81,3 +81,21 @@ describe("POST /api/auth/login", () => {
     expect(res.status).toBe(401);
   });
 });
+
+describe("GET /api/auth/me", () => {
+  it("returns the current user's profile with a valid token", async () => {
+    const reg = await request(app).post("/api/auth/register").send(validUser);
+    const res = await request(app)
+      .get("/api/auth/me")
+      .set("Authorization", `Bearer ${reg.body.token}`);
+    expect(res.status).toBe(200);
+    expect(res.body.email).toBe(validUser.email);
+    expect(res.body).toHaveProperty("createdAt");
+    expect(res.body).not.toHaveProperty("password");
+  });
+
+  it("rejects requests without a token (401)", async () => {
+    const res = await request(app).get("/api/auth/me");
+    expect(res.status).toBe(401);
+  });
+});
