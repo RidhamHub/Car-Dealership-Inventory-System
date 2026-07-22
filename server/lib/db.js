@@ -1,16 +1,17 @@
 import mongoose from "mongoose";
-import { configDotenv } from "dotenv";
-
-configDotenv();
 
 export const connectDB = async () => {
-    try {
-        mongoose.connection.on('connected', () => {
-            console.log("Database is connected");
-        })
-        await mongoose.connect(`${process.env.MONGODB_URL}/chat-app`)
-    } catch (e) {
-        console.log("error in connectiong MongoDB : ", e);
+  const uri = process.env.MONGODB_URL;
+  if (!uri) {
+    throw new Error("MONGODB_URL is not defined in .env");
+  }
 
-    }
-}
+  mongoose.connection.on("connected", () => {
+    console.log("MongoDB connected");
+  });
+  mongoose.connection.on("error", (err) => {
+    console.error("MongoDB connection error:", err.message);
+  });
+
+  await mongoose.connect(uri, { dbName: "car-dealership" });
+};

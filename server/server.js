@@ -1,26 +1,20 @@
-import express from "express";
+import "dotenv/config";
+import app from "./app.js";
 import { connectDB } from "./lib/db.js";
-import { configDotenv } from "dotenv";
 
-
-const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(express.json());
+// Connect to the database, then start accepting requests.
+connectDB()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error("Failed to start server:", err.message);
+    process.exit(1);
+  });
 
-app.get('/', (req, res) => {
-    res.send('Car Inventry Server is running');
-});
-
-//connect to mongoDB
-await connectDB();
-
-
-
-app.listen(PORT, () => {
-    console.log(`Server is running on port : ${PORT}`);
-})
-
-
-// export server for vercel
+// Exported for serverless platforms (for Vercel).
 export default app;
