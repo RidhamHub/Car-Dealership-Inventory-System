@@ -32,6 +32,32 @@ export const getVehicles = async (req, res) => {
   }
 };
 
+// GET /api/vehicles/search  (any logged-in user)
+// Optional query params: make, model, category, minPrice, maxPrice
+export const searchVehicles = async (req, res) => {
+  try {
+    const { make, model, category, minPrice, maxPrice } = req.query;
+    const filter = {};
+
+    // Text fields use a case-insensitive partial match.
+    if (make) filter.make = { $regex: make, $options: "i" };
+    if (model) filter.model = { $regex: model, $options: "i" };
+    if (category) filter.category = { $regex: category, $options: "i" };
+
+    // Price range: build { $gte, $lte } only for the bounds provided.
+    if (minPrice || maxPrice) {
+      filter.price = {};
+      if (minPrice) filter.price.$gte = Number(minPrice);
+      if (maxPrice) filter.price.$lte = Number(maxPrice);
+    }
+
+    const vehicles = await Vehicle.find(filter).sort({ createdAt: -1 });
+    res.json(vehicles);
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
 // PUT /api/vehicles/:id  (admin only)
 export const updateVehicle = async (req, res) => {
   try {
@@ -47,6 +73,61 @@ export const updateVehicle = async (req, res) => {
     if (!vehicle) {
       return res.status(404).json({ message: "Vehicle not found" });
     }
+    res.json(vehicle);
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+// POST /api/vehicles/:id/purchase  (any logged-in user)
+// Buys `quantity` units (default 1), reducing the stock.
+export const purchaseVehicle = async (req, res) => {
+  try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(404).json({ message: "Vehicle not found" });
+    }
+
+    const amount = Number(req.body.quantity) || 1;
+    if (amount < 1) {
+      return res.status(400).json({ message: "Purchase quantity must be at least 1" });
+    }
+
+    const vehicle = await Vehicle.findById(req.params.id);
+    if (!vehicle) {
+      return res.status(404).json({ message: "Vehicle not found" });
+    }
+    if (vehicle.quantity < amount) {
+      return res.status(400).json({ message: "Not enough stock available" });
+    }
+
+    vehicle.quantity -= amount;
+    await vehicle.save();
+    res.json(vehicle);
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+// POST /api/vehicles/:id/restock  (admin only)
+// Adds `quantity` units (default 1) back into stock.
+export const restockVehicle = async (req, res) => {
+  try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(404).json({ message: "Vehicle not found" });
+    }
+
+    const amount = Number(req.body.quantity) || 1;
+    if (amount < 1) {
+      return res.status(400).json({ message: "Restock quantity must be at least 1" });
+    }
+
+    const vehicle = await Vehicle.findById(req.params.id);
+    if (!vehicle) {
+      return res.status(404).json({ message: "Vehicle not found" });
+    }
+
+    vehicle.quantity += amount;
+    await vehicle.save();
     res.json(vehicle);
   } catch (error) {
     res.status(500).json({ message: "Something went wrong" });
